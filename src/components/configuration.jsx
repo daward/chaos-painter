@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Formik } from "formik";
-import { Form, Input, SubmitButton, ResetButton } from "formik-semantic-ui-react";
+import { Form, Input, SubmitButton } from "formik-semantic-ui-react";
 import { useDispatch } from 'react-redux';
 
 const Configuration = () => {
@@ -19,7 +19,7 @@ const Configuration = () => {
           settings
         })}
       >
-        <Form fluid size="tiny" style={{ width: "300px", margin: "20px", textAlign: "left" }}>
+        <Form size="tiny" style={{ width: "300px", margin: "20px", textAlign: "left" }}>
           <Input
             id="input-numRuns"
             inputLabel="# of runs"

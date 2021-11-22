@@ -1,20 +1,19 @@
 import './App.css';
-import gradient from "gradient-color";
 import TurtleCanvas from "./turtlecanvas";
 import Configuration from './configuration';
 import {
-  Button,
-  Checkbox,
-  Grid,
-  Header,
-  Icon,
-  Image,
   Menu,
   Segment,
   Sidebar,
 } from 'semantic-ui-react'
+import { useDispatch } from 'react-redux';
 
 function App() {
+  const dispatch = useDispatch();
+  dispatch({
+    type: "SET_SETTINGS_FROM_URL",
+    querystring: window.location.search
+  });
   return (
     <div className="App">
       <Sidebar.Pushable as={Segment}>

@@ -2,7 +2,6 @@ import Turtle from "react-turtle";
 import gradient from "gradient-color";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
 
 const colors = gradient([
   '#f102b7', // pink

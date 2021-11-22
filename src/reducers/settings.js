@@ -14,11 +14,37 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case "SET_SETTINGS":
+  
+
+    case "SET_SETTINGS": {
+      const newState = {
+        ...state,
+        ...action.settings,
+      }
+      const url = new URL(window.location);
+      Object.keys(newState).forEach(key => {
+        url.searchParams.set(key, newState[key]);
+      })
+      window.history.pushState({}, '', url);
+
       return {
         ...state,
         ...action.settings,
       };
+    }
+
+    case "SET_SETTINGS_FROM_URL": {
+      const newState = {};
+      const params = new URLSearchParams(action.querystring);
+      params.forEach((value, key) => {
+        newState[key] = parseFloat(value);
+      })
+
+      return {
+        ...state,
+        ...newState
+      }
+    }
 
     default:
       return state;
