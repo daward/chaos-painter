@@ -12,6 +12,21 @@ const colors = gradient([
   '#f102b7' // pink
 ], 250)
 
+const margin = 0.05
+const getModeValues = ({ i, growth, numRuns, mode }) => {
+  const percentageRun = 1 - (numRuns - i) / numRuns;
+  if (mode === "centered") {
+    return {
+      xCoord: 0,
+      growthModifier: 1 + (growth - 1) * percentageRun
+    }
+  } else {
+    return {
+      xCoord: 1400 * (1 - margin) * percentageRun - 700 * (1 - margin),
+      growthModifier:  1 + (growth - 1) * Math.abs(percentageRun * 2 - 1)
+    }
+  }
+}
 
 function TurtleCanvas() {
   const settings = useSelector(state => {
@@ -21,19 +36,20 @@ function TurtleCanvas() {
   const dispatch = useDispatch();
 
   if (settings) {
-    const { lowerBound, upperBound, zoom, numRuns, angle, startSeed, growth, strandSize, alpha } = settings;
+    const { lowerBound, upperBound, zoom, numRuns, angle, startSeed, growth, strandSize, alpha, mode } = settings;
     return (<Turtle
       animated={true}
       width={1400}
       height={880}
       pixelated={true}
       draw={turtle => {
-
-        turtle.home = () => turtle.goto(0, 0)
+        const logistic = ({ r, x }) => r * x * (1 - x)
 
         return (i) => {
+          const { xCoord, growthModifier } = getModeValues({ i, growth, numRuns, mode });
           turtle._ctx.globalAlpha = alpha;
-          const logistic = ({ r, x }) => r * x * (1 - x)
+
+          turtle.home = () => turtle.goto(xCoord, 0)
 
           const logisticRun = ({ r }) => {
             dispatch({
@@ -42,8 +58,6 @@ function TurtleCanvas() {
             });
             turtle.setcolor(colors[i % colors.length]);
             let x = startSeed;
-            const percentageRun = 1 - (numRuns - i) / numRuns;
-            const growthModifier = 1 + (growth - 1) * percentageRun;
             for (let j = 0; j < strandSize; j++) {
               x = logistic({ r, x });
               turtle.forward(zoom * x * growthModifier);

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Formik } from "formik";
-import { Form, Input, SubmitButton } from "formik-semantic-ui-react";
+import { Form, Input, SubmitButton, Select } from "formik-semantic-ui-react";
 import { useDispatch } from 'react-redux';
 
 const Configuration = () => {
@@ -20,6 +20,18 @@ const Configuration = () => {
         })}
       >
         <Form size="tiny" style={{ width: "300px", margin: "20px", textAlign: "left" }}>
+          <Select
+            id="select-mode"
+            inputLabel="Display mode"
+            errorPrompt
+            name="mode"
+            selectOnBlur={false}
+            clearable
+            options={[
+              { key: "Centered", value: "centered", text: "Centered" },
+              { key: "Linear", value: "linear", text: "Linear" }
+            ]}
+          />
           <Input
             id="input-numRuns"
             inputLabel="# of runs"

@@ -8,7 +8,8 @@ const initialState = {
   startSeed: .5,
   growth: .1,
   strandSize: 300,
-  alpha: 0.1
+  alpha: 0.1,
+  mode: "centered"
 };
 
 
@@ -37,7 +38,11 @@ const reducer = (state = initialState, action) => {
       const newState = {};
       const params = new URLSearchParams(action.querystring);
       params.forEach((value, key) => {
-        newState[key] = parseFloat(value);
+        if(key !== "mode") {
+          newState[key] = parseFloat(value);
+        } else {
+          newState[key] = value;
+        }
       })
 
       return {
