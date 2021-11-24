@@ -2,6 +2,7 @@ import Turtle from "react-turtle";
 import gradient from "gradient-color";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import * as StackBlur from 'stackblur-canvas';
 
 const colors = gradient([
   '#f102b7', // pink
@@ -23,7 +24,7 @@ const getModeValues = ({ i, growth, numRuns, mode }) => {
   } else {
     return {
       xCoord: 1400 * (1 - margin) * percentageRun - 700 * (1 - margin),
-      growthModifier:  1 + (growth - 1) * Math.abs(percentageRun * 2 - 1)
+      growthModifier: 1 + (growth - 1) * Math.abs(percentageRun * 2 - 1)
     }
   }
 }
@@ -36,7 +37,7 @@ function TurtleCanvas() {
   const dispatch = useDispatch();
 
   if (settings) {
-    const { lowerBound, upperBound, zoom, numRuns, angle, startSeed, growth, strandSize, alpha, mode } = settings;
+    const { lowerBound, upperBound, zoom, numRuns, angle, startSeed, growth, strandSize, alpha, mode, blur } = settings;
     return (<Turtle
       animated={true}
       width={1400}
@@ -49,7 +50,22 @@ function TurtleCanvas() {
           const { xCoord, growthModifier } = getModeValues({ i, growth, numRuns, mode });
           turtle._ctx.globalAlpha = alpha;
 
-          turtle.home = () => turtle.goto(xCoord, 0)
+          turtle.home = () => turtle.goto(xCoord, 0);
+
+          const turn = (angleTurn) => {
+            let realAngle = angleTurn % 360;
+            const smoothFactor = 1;
+            let turner = realAngle >= 180 ?
+              () => turtle.left((360 - realAngle) / smoothFactor) :
+              () => turtle.right(realAngle / smoothFactor);
+
+
+            for (let smoothness = 0; smoothness < smoothFactor - 1; smoothness++) {
+              turner();
+              turtle.forward(0.3);
+            }
+            turner();
+          }
 
           const logisticRun = ({ r }) => {
             dispatch({
@@ -61,7 +77,8 @@ function TurtleCanvas() {
             for (let j = 0; j < strandSize; j++) {
               x = logistic({ r, x });
               turtle.forward(zoom * x * growthModifier);
-              turtle.right(angle * x);
+              turn(angle * x)
+
             }
           }
 
@@ -72,6 +89,9 @@ function TurtleCanvas() {
             r: ((upperBound - lowerBound) / numRuns) * i + lowerBound
           })
           turtle.stroke();
+          // if(i === numRuns) {
+            StackBlur.canvasRGB(turtle._ctx.canvas, 0, 0, 1400, 880, blur)
+          // }
           return i < numRuns;
         };
       }}

@@ -3,15 +3,19 @@ import { useSelector } from 'react-redux'
 import { Formik } from "formik";
 import { Form, Input, SubmitButton, Select } from "formik-semantic-ui-react";
 import { useDispatch } from 'react-redux';
+import { Grid, Header, Icon } from "semantic-ui-react";
+import Explain from "./explain";
 
 const Configuration = () => {
 
-  const { r } = useSelector(state => state.logistic);
   const initialValues = useSelector(state => state.settings);
   const dispatch = useDispatch();
-
   return (
     <div style={{ textAlign: "left" }}>
+      <Header size="small">
+        <Icon name="wrench" size="small" />
+        Configuration
+      </Header>
       <Formik
         initialValues={initialValues}
         onSubmit={(settings) => dispatch({
@@ -22,7 +26,6 @@ const Configuration = () => {
         <Form size="tiny" style={{ width: "300px", margin: "20px", textAlign: "left" }}>
           <Select
             id="select-mode"
-            inputLabel="Display mode"
             errorPrompt
             name="mode"
             selectOnBlur={false}
@@ -34,7 +37,7 @@ const Configuration = () => {
           />
           <Input
             id="input-numRuns"
-            inputLabel="# of runs"
+            inputLabel="# of strands"
             name="numRuns"
             type="number"
             focus
@@ -109,19 +112,36 @@ const Configuration = () => {
           />
           <Input
             id="input-alpha"
-            inputLabel="Strand alpha"
+            inputLabel="Strand opacity"
             name="alpha"
             type="number"
             focus
             fluid
             errorPrompt
           />
-          <SubmitButton fluid primary loading={false}>
-            Run
-          </SubmitButton>
+          <Input
+            id="input-blur"
+            inputLabel="Blur Amount"
+            name="blur"
+            type="number"
+            focus
+            fluid
+            errorPrompt
+          />
+          <Grid>
+            <Grid.Column width={8}>
+              <SubmitButton fluid primary loading={false} labelPosition='right' icon>
+                <Icon name='play' />
+                Run
+              </SubmitButton>
+            </Grid.Column>
+            <Grid.Column width={8}>
+              <Explain />
+            </Grid.Column>
+          </Grid>
         </Form>
       </Formik>
-      R: {Math.round(r * 10000) / 10000}
+
     </div>
   )
 }

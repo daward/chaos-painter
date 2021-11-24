@@ -17,8 +17,7 @@ const store = createStore(
   combineReducers(reducers),
   composeWithDevTools(middlewareEnhancer)
 );
-const params = new URLSearchParams(window.location.search);
-console.log(params);
+
 
 ReactDOM.render(
   <React.StrictMode>

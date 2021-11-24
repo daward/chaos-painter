@@ -9,7 +9,8 @@ const initialState = {
   growth: .1,
   strandSize: 300,
   alpha: 0.1,
-  mode: "centered"
+  mode: "centered",
+  blur: 0
 };
 
 

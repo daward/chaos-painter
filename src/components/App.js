@@ -1,12 +1,14 @@
 import './App.css';
 import TurtleCanvas from "./turtlecanvas";
 import Configuration from './configuration';
+import Favorites from './favorites';
 import {
   Menu,
   Segment,
   Sidebar,
 } from 'semantic-ui-react'
 import { useDispatch } from 'react-redux';
+import Progress from "./progress";
 
 function App() {
   const dispatch = useDispatch();
@@ -15,7 +17,7 @@ function App() {
     querystring: window.location.search
   });
   return (
-    <div className="App">
+    <div>
       <Sidebar.Pushable as={Segment}>
         <Sidebar
           as={Menu}
@@ -24,7 +26,17 @@ function App() {
           visible
           width="wide"
         >
-          <Configuration/>
+          <div>
+            <Segment vertical color="blue" basic>
+              <Configuration />
+            </Segment>
+            <Segment vertical color="green" basic>
+              <Progress />
+            </Segment>
+            <Segment vertical color="red" textAlign="left" basic padded>
+              <Favorites />
+            </Segment>
+          </div>
         </Sidebar>
 
         <Sidebar.Pusher>
