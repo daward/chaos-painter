@@ -11,7 +11,7 @@ const ProgressBar = () => {
     <div style={{ textAlign: "left" }}>
       <Header size="small">
         <Icon name="wrench" size="small"/>
-        Drawing Progress
+        Painting Progress
       </Header>
       <Progress percent={((r -lowerBound) / (upperBound - lowerBound)) * 100} indicating={r !== upperBound} >R: {Math.round(r * 10000) / 10000}</Progress>
     </div>
