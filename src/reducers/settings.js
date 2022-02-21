@@ -10,14 +10,15 @@ const initialState = {
   strandSize: 300,
   alpha: 0.1,
   mode: "centered",
-  blur: 0
+  blur: 0,
+  recording: false,
+  algorithm: "logistic"
 };
 
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
   
-
     case "SET_SETTINGS": {
       const newState = {
         ...state,
@@ -26,7 +27,7 @@ const reducer = (state = initialState, action) => {
       const url = new URL(window.location);
       Object.keys(newState).forEach(key => {
         url.searchParams.set(key, newState[key]);
-      })
+      });
       window.history.pushState({}, '', url);
 
       return {

@@ -6,7 +6,7 @@ const Favorites = () => {
   return (
     <div style={{ textAlign: "left" }}>
       <Header size="small">
-        <Icon name="heart" size="small" color="red" />
+        <Icon name="heart" size="small" color="red" />  
         Favorites
       </Header>
       <List divided selection>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Formik } from "formik";
-import { Form, Input, SubmitButton, Select } from "formik-semantic-ui-react";
+import { Form, Input, SubmitButton, Select, Checkbox } from "formik-semantic-ui-react";
 import { useDispatch } from 'react-redux';
 import { Grid, Header, Icon } from "semantic-ui-react";
 import Explain from "./explain";
@@ -33,6 +33,18 @@ const Configuration = () => {
             options={[
               { key: "Centered", value: "centered", text: "Centered" },
               { key: "Linear", value: "linear", text: "Linear" }
+            ]}
+          />
+          <Select
+            id="select-algorithm"
+            errorPrompt
+            name="algorithm"
+            selectOnBlur={false}
+            clearable
+            options={[
+              { key: "Logistic", value: "logistic", text: "Logistic" },
+              { key: "Gingerbread", value: "gingerbread", text: "Gingerbread" },
+              { key: "Standard", value: "standard", text: "Standard" }
             ]}
           />
           <Input
@@ -127,6 +139,16 @@ const Configuration = () => {
             focus
             fluid
             errorPrompt
+          />
+          <Checkbox 
+            id="input-record"
+            inputLabel="Save Recording"
+            name="recording"
+            label={
+              <label>
+                Record as a movie
+              </label>
+            }
           />
           <Grid>
             <Grid.Column width={8}>
